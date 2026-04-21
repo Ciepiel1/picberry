@@ -21,32 +21,21 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#if defined(BOARD_A10)
-#include "hosts/a10.h"
-#elif defined(BOARD_RPI)
-#include "hosts/rpi.h"
-#elif defined(BOARD_RPI2)
-#include "hosts/rpi2.h"
-#elif defined(BOARD_RPI4)
-#include "hosts/rpi4.h"
-#elif defined(BOARD_AM335X)
-#include "hosts/am335x.h"
-#endif
-
 #include "devices/device.h"
+#include "hosts/rp1.h"
 
 using namespace std;
 
 #define VERSION "0.2"
 
 /* Low-level functions */
-void delay_us(unsigned int howLong);
+volatile inline void delay_us(volatile unsigned int howLong);
 void setup_io(void);
 void close_io(void);
 
 /* inhx.cpp functions */
-unsigned int read_inhx(char *infile, memory *mem, uint32_t offset=0);
-void write_inhx(memory *mem, char *outfile, uint32_t offset=0);
+unsigned int read_inhx(char* infile, memory* mem, uint32_t offset = 0);
+void write_inhx(memory* mem, char* outfile, uint32_t offset = 0);
 
 /* Runtime Functions */
 void pic_reset(bool silent = false);
@@ -54,19 +43,20 @@ void pic_reset(bool silent = false);
 /* main functions */
 void usage(void);
 void server_mode(int port);
-uint8_t send_file(char * filename);
-uint8_t receive_file(int sock, char * filename);
+uint8_t send_file(char* filename);
+uint8_t receive_file(int sock, char* filename);
 
-extern volatile uint32_t *gpio;
-extern int pic_clk, pic_data, pic_mclr;
+extern volatile uint32_t* gpio;
+extern volatile int pic_clk;
+extern int pic_data, pic_mclr;
 
 struct flags_struct {
-   int debug = 0;
-   int client = 0;
-   int noverify = 0;
-   int boot_only = 0;
-   int program_only = 0;
-   int fulldump = 0;
+    int debug = 0;
+    int client = 0;
+    int noverify = 0;
+    int boot_only = 0;
+    int program_only = 0;
+    int fulldump = 0;
 };
 
 extern struct flags_struct flags;
